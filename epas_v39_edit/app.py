@@ -30,14 +30,14 @@ def main() -> None:
     role = user.get('role')
 
     NAV = {
-        'gm': [('Command Center', 'cockpit'), ('Projects', 'projects'), ('Project & Plan', 'operations'), ('Survey Control', 'survey'), ('Governance & Acceptance', 'governance')],
-        'dm': [('Operations Center', 'cockpit'), ('Projects', 'projects'), ('Plan / Allocation', 'operations'), ('Survey Control', 'survey'), ('Acceptance', 'governance')],
-        'engineer': [('Technical Cockpit', 'cockpit'), ('Projects', 'projects'), ('Plan Appraisal', 'operations')],
-        'surveyor': [('Field Cockpit', 'cockpit'), ('Projects', 'projects'), ('Survey Lifecycle', 'survey')],
-        'designer': [('Submission Cockpit', 'cockpit'), ('Projects', 'projects'), ('Plan Appraisal', 'operations')],
-        'ship_management': [('Operations Cockpit', 'cockpit'), ('Projects', 'projects'), ('Corrective / Survey', 'operations') , ('Survey Lifecycle', 'survey')],
-        'owner': [('Fleet Cockpit', 'cockpit'), ('Projects', 'projects'), ('In-Service', 'operations'), ('Survey Lifecycle', 'survey')],
-        'shipyard': [('NSC Cockpit', 'cockpit'), ('Projects', 'projects'), ('NSC Operations', 'operations'), ('Survey Lifecycle', 'survey')],
+        'gm': [('Command Center', 'cockpit'), ('Projects', 'projects')],
+        'dm': [('Operations Center', 'cockpit'), ('Projects', 'projects')],
+        'engineer': [('Technical Cockpit', 'cockpit'), ('Projects', 'projects')],
+        'surveyor': [('Field Cockpit', 'cockpit'), ('Projects', 'projects')],
+        'designer': [('Submission Cockpit', 'cockpit'), ('Projects', 'projects')],
+        'ship_management': [('Operations Cockpit', 'cockpit'), ('Projects', 'projects')],
+        'owner': [('Fleet Cockpit', 'cockpit'), ('Projects', 'projects')],
+        'shipyard': [('NSC Cockpit', 'cockpit'), ('Projects', 'projects')],
     }
 
     if role not in NAV:
