@@ -1,0 +1,3 @@
+EPAS v3.4 Release Manifest
+File count: 218
+Highlights: audit points 11-20 closed; cache key factory; single-pass uploads; canonical certificate/survey report upload cleanup; GM/DM decision-first UX; Engineer technical package; Surveyor readiness; Designer revision timeline; stakeholder fleet summaries.

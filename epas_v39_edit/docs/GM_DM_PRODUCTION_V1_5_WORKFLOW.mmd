@@ -1,0 +1,73 @@
+flowchart TB
+  A[Supabase Auth] --> B{Role}
+  B --> GM[GM Classification - Internal]
+  B --> DM[Department Manager - Internal]
+  B --> E[Authorized Engineer - Internal]
+  B --> S[Authorized Surveyor - Internal]
+  B --> D[Designer - Stakeholder]
+  B --> SM[Ship Management - Stakeholder]
+  B --> O[Owner - Stakeholder / Read Only]
+  B --> Y[Shipyard - Stakeholder / Read Only]
+
+  GM --> P[Create Project + Activate]
+  P --> H[Project Health / Milestones / Risks / Decisions]
+  P --> PA[Plan Drawing Intake]
+  PA --> DM
+  DM --> R1{Engineer: Authorization + Competency + Availability + Conflict}
+  R1 --> E
+  E --> ER[Technical Appraisal + Observation Register]
+  ER --> DMR[DM Review Package]
+  DMR --> DEC{DM Decision}
+  DEC -->|Changes| EFB[Engineer Rework]
+  EFB --> E
+  DEC -->|Approved| GMA[GM Final Plan Decision]
+  DEC -->|Rejected / Amended| GMD[GM Amended Design Decision]
+  GMD -->|Return DM| DM
+  GMD -->|Send Designer| D
+  D --> REV[Controlled Revision + Parent Decision Traceability]
+  REV --> DM
+  GMA -->|Correction| D
+  GMA -->|Approve| APR[Approved + Locked Revision]
+  APR --> REL[GM/DM Controlled Stakeholder Release]
+  REL --> O
+  REL --> Y
+  REL --> D
+  REL --> SM
+
+  GM --> RFI[Survey RFI]
+  RFI --> DM2[DM Scope / Survey Type Review]
+  DM2 --> R2{Surveyor: Authorization + Competency + Availability + Conflict}
+  R2 --> S
+  S --> SR[Survey + Controlled Report + Evidence]
+  SR --> SO[Structured Survey Observation Register]
+  SO --> DM3[DM Review]
+  DM3 --> GM2[GM Final Survey Decision]
+  GM2 -->|Approve Clean| FC[Full Certificate]
+  GM2 -->|Approve with Open Obs| IC[Interim Certificate]
+  GM2 -->|Send Back| CA[Corrective Action]
+  CA --> S
+  CA --> SM
+  S --> EV[Controlled Evidence]
+  SM --> EV
+  EV --> DMV[DM Verification]
+  DMV --> FU[Follow-up RFI]
+  FU --> DM2
+  SO -->|All cleared| ICF[Finalize Interim -> Full Certificate]
+  ICF --> FC
+
+  DM --> RS[Resource Capacity + SLA Engine]
+  RS --> ESC[DM Escalation]
+  ESC --> GME[GM Escalation Decision]
+  GME --> ACT[Assigned Action + Due Date + Linked Task]
+  ACT --> H
+
+  H --> CLOSE{Closure Checklist}
+  CLOSE -->|All Gates Pass| ARCH[GM Close + Archive]
+  CLOSE -->|Gate Fails| OPEN[Continue controlled workflow]
+
+  AUTH[PostgreSQL RLS + SECURITY DEFINER RPC] -.-> B
+  AUDIT[Immutable Audit + Document Access Audit] -.-> P
+  AUDIT -.-> PA
+  AUDIT -.-> SR
+  AUDIT -.-> REL
+  AUDIT -.-> FC

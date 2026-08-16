@@ -1,0 +1,69 @@
+flowchart TB
+    A[GM Classification Dashboard] --> B{New Work / Management Action?}
+    B --> C[Create Project]
+    C --> C1[Validate project data + scope + rules + team]
+    C1 --> C2[Atomic DB transaction]
+    C2 --> C3[Project ACTIVE]
+    C3 --> C4[Milestones generated]
+    C4 --> C5[Internal + linked stakeholder notifications]
+
+    B --> PA[Plan Appraisal]
+    PA --> PA1[GM receives drawing / revision]
+    PA1 --> PA2[GM forwards to Department Manager]
+    PA2 --> DM1[DM receives version in authenticated Inbox]
+    DM1 --> DM2[Check Engineer authorization + competency + availability/workload]
+    DM2 --> DM3[Assign specific Authorized Engineer]
+    DM3 --> ENG[Engineer technical appraisal]
+    ENG --> ENGQ{Engineer result?}
+    ENGQ -->|Observation / appraisal issue| DM4[DM reviews engineer appraisal]
+    ENGQ -->|Technically complete| DM4
+    DM4 --> DMQ{DM decision?}
+    DMQ -->|Requires changes| EFB[DM feedback to Engineer]
+    EFB --> ENG
+    DMQ -->|Design rejected / amended| GMD[DM forwards recommendation to GM]
+    GMD --> GMD2[GM sends to Designer for correction]
+    GMD2 --> DES[Designer submits controlled revision]
+    DES --> REV[New revision stored + previous revision superseded]
+    REV --> DM1
+    DMQ -->|Appraisal approved| GMA[DM forwards to GM for final approval]
+    GMA --> GMDQ{GM decision?}
+    GMDQ -->|Approve| APPR[Drawing Approved + Revision Locked]
+    GMDQ -->|Send to Designer| GMD2
+
+    B --> SR[Survey RFI]
+    SR --> SR1[GM forwards Survey RFI to DM]
+    SR1 --> DM5[DM reviews scope + survey type]
+    DM5 --> DM6[Check Surveyor specialization + authorization + competency + availability]
+    DM6 --> DM7[Assign specific Authorized Surveyor + schedule]
+    DM7 --> SURV[Surveyor conducts survey + submits report/evidence]
+    SURV --> DM8[DM reviews report + observations]
+    DM8 --> DMQ2{Observations?}
+    DMQ2 -->|No| GM2[DM forwards to GM for final approval]
+    DMQ2 -->|Yes| GM2
+    GM2 --> GMR{GM decision?}
+    GMR -->|Approve| CERTQ{Open observations?}
+    CERTQ -->|No| CERT[GM issues Full Class Certificate]
+    CERTQ -->|Yes| ICERT[GM issues Interim Certificate]
+    GMR -->|Send back| CA[GM creates controlled corrective-action task for DM]
+    CA --> DM9[DM assigns corrective action to Surveyor / Ship Management]
+    DM9 --> CA2[Assignee submits evidence]
+    CA2 --> DM10[DM verifies corrective action]
+    DM10 --> FU[Follow-up RFI created]
+    FU --> DM5
+
+    B --> MON[DM Project Monitoring]
+    MON --> DELAY{Delay / issue?}
+    DELAY -->|No| CONT[Continue regular workflow]
+    DELAY -->|Yes| ESC[DM escalates to GM with reason + recommendation + severity]
+    ESC --> GMESC[GM reviews escalation]
+
+    AUTH[Authorization Matrix] --> DM2
+    COMP[Competency Matrix] --> DM2
+    AVAIL[Availability + Workload Engine] --> DM2
+    AUTH --> DM6
+    COMP --> DM6
+    AVAIL --> DM6
+
+    NOTIF[Authenticated In-App Notifications] -.-> PA2
+    NOTIF -.-> SR1
+    NOTIF -.-> ESC

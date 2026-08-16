@@ -1,0 +1,9 @@
+EPAS v3.9 Release Manifest
+==========================
+- Project Overview redesigned: no Workflow Snapshot, no Recent Activity.
+- Project-specific navigation now includes Survey Status, Risk Register and Ship Register.
+- Ship Register is review-only and scoped to the selected project.
+- Survey Status is review-only and reflects current phase/cycle/RFI activity.
+- Ship Register is placed directly below Risk Register in project navigation.
+- Role-level cockpit also removes Workflow Snapshot and Recent Activities.
+- Active Streamlit entrypoint uses v3.9 project workspace and cockpit modules.

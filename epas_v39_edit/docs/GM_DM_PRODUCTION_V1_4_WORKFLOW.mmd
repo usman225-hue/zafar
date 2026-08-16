@@ -1,0 +1,72 @@
+flowchart TB
+  AUTH[Supabase Auth] --> ROLE{Authenticated Role}
+  ROLE --> GM[GM Classification]
+  ROLE --> DM[Department Manager]
+  ROLE --> ENG[Authorized Engineer]
+  ROLE --> SURV[Authorized Surveyor]
+  ROLE --> DES[Designer]
+  ROLE --> SM[Ship Management]
+
+  GM --> CREATE[Create / Validate Project]
+  CREATE --> ACTIVE[Project ACTIVE]
+  ACTIVE --> HEALTH[Project Health / Milestones / Risks / Decisions / Audit]
+
+  DES --> INIT[Initial Drawing Submission]
+  INIT --> GMI[GM Drawing Intake]
+  GMI --> PA[Plan Appraisal Drawing]
+  GM --> PA
+  PA --> DM1[GM -> DM Technical Review]
+  DM1 --> ELIG1{Authorization + Competency + Availability}
+  ELIG1 --> ENG1[Assign Specific Engineer]
+  ENG1 --> ENG
+  ENG --> TECH[Technical Appraisal]
+  TECH --> OBS1{Observations?}
+  OBS1 -->|Yes| POR[Plan Observation Register]
+  POR --> DM2[DM Review]
+  OBS1 -->|No| DM2
+  DM2 --> DEC2{DM Decision}
+  DEC2 -->|Changes Required| ENG2[Engineer Rework]
+  ENG2 --> TECH
+  DEC2 -->|Approved| GM2[GM Final Plan Decision]
+  DEC2 -->|Rejected / Amended| GM3[GM Amended Design Decision]
+  GM3 -->|Send to Designer| DES2[Designer Correction]
+  GM3 -->|Return to DM| DM1
+  DES2 --> REV[New Controlled Revision]
+  REV --> DM1
+  GM2 -->|Approve| APPR[Approved Drawing / Locked Revision]
+  GM2 -->|Correction| DES2
+
+  GM --> RFI[Survey RFI Intake]
+  RFI --> DM3[GM -> DM Scope Review]
+  DM3 --> ELIG2{Surveyor Authorization + Competency + Availability}
+  ELIG2 --> SURV
+  SURV --> SR[Survey + Report + Evidence]
+  SR --> OBS2{Observations?}
+  OBS2 -->|Yes| SOR[Survey Observation Register]
+  OBS2 -->|No| DM4[DM Survey Review]
+  SOR --> DM4
+  DM4 --> GM4[DM -> GM Final Approval]
+  GM4 -->|Approve| CERT{Open Observations?}
+  GM4 -->|Send Back| CA[Corrective Action]
+  CA --> SURV
+  CA --> SM
+  SURV --> EVID[Corrective Evidence]
+  SM --> EVID
+  EVID --> DMV[DM Verification]
+  DMV --> FU[Follow-up RFI]
+  FU --> DM3
+  CERT -->|No| FULL[Full Certificate]
+  CERT -->|Yes| INTERIM[Interim Certificate]
+  FULL --> CLOSE[Project Close / Archive]
+  INTERIM --> CA
+
+  DM --> RESOURCE[Resource + SLA Engine]
+  RESOURCE --> ESC[DM Escalation]
+  ESC --> GME[GM Escalation Decision]
+  GME -->|Acknowledge| RESOURCE
+  GME -->|Return to DM| DM
+  GME -->|Resolve / Reject| HEALTH
+
+  AUTH -.-> RLS[PostgreSQL RLS]
+  RLS -.-> RPC[SECURITY DEFINER RPC Only]
+  RPC -.-> AUDIT[Audit: actor / role / timestamp / entity / old-new / reason / request metadata]

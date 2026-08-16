@@ -1,0 +1,39 @@
+flowchart TD
+    A[DM Dashboard / Inbox] --> B{New Work Item?}
+    B -->|Plan Appraisal Drawing| C[GM forwards drawing for technical review]
+    C --> D[DM receives new version and loop continues]
+    D --> E[Check Engineer availability & workload]
+    E --> F[Assign to a specific Authorized Engineer]
+    F --> G[Engineer works appraisal]
+    G --> H{DM reviews appraisal}
+    H -->|Appraisal Requires Changes| I[DM sends back to Engineer with feedback]
+    I --> G
+    H -->|Design Rejected / Amended| J[DM sees amendment / rejection from Engineer]
+    J --> K[DM forwards to GM to notify Designer]
+    K --> L[GM sends to Designer for correction]
+    L --> M[Designer resubmits drawing]
+    M --> D
+    H -->|Appraisal Approved| N[DM forwards to GM for final approval]
+    N --> O[GM approves / sends to Designer]
+
+    B -->|Survey RFI| P[GM forwards a Survey RFI (NSC or In-Service)]
+    P --> Q[DM reviews RFI scope & survey type]
+    Q --> R[Check Surveyor availability & specialization]
+    R --> S[Assign to a specific Authorized Surveyor]
+    S --> T[Surveyor schedules, conducts survey, submits report]
+    T --> U{DM reviews survey report & observations}
+    U -->|Observations exist| V[DM reviews observations and adds remarks]
+    V --> W[DM forwards to GM for decision]
+    U -->|No observations| X[DM forwards report to GM for final approval & certificate]
+    W --> Y{GM decides}
+    Y -->|Send back for rework| Z[GM returns to DM]
+    Z --> AA[DM instructs Surveyor / Ship Management to perform corrective actions]
+    AA --> AB[Follow-up RFI created — loop back to DM scope review]
+    AB --> Q
+    Y -->|Approve observations| AC[GM approves — observations cleared]
+    AC --> AD[DM receives final approval and certificate issuance]
+    V --> AE[DM monitors overall project progress & workload]
+    X --> AE
+    AE --> AF{Any delays or issues?}
+    AF -->|Yes| AG[DM escalates to GM with recommendation]
+    AF -->|No| AH[Continue regular workflow]

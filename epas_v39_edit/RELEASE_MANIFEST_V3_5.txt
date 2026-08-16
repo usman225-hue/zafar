@@ -1,0 +1,6 @@
+EPAS v3.5 Final — role UX, self-contained scheduler, stakeholder controls, workflow coordination, security and performance hardening
+Tests: 205 passed / 1 skipped (browser test requires Streamlit runtime in execution environment)
+Python compileall: PASS
+Production validator: PASS
+SQL source integrity: PASS
+Live RLS/Storage/Cron/concurrency acceptance: deployment step, not pre-executed

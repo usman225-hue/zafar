@@ -1,0 +1,22 @@
+EPAS v3.8 — Project-Specific Navigation Complete
+Base: EPAS v3.7
+
+Primary UX change:
+- Opening a project converts the left sidebar into a project-specific navigation context.
+- Project phases are shown only when included in the selected project's scope.
+- Always-available project sections: Certification, Documents, Notifications, Audit Trail.
+- Project Overview is always available.
+
+Dynamic phase visibility:
+- Plan Appraisal appears only when project.phases includes plan_appraisal.
+- NSC Survey appears only when project.phases includes nsc_survey.
+- In-Service Survey appears only when project.phases includes in_service.
+
+Validation:
+- Python compile: PASS
+- Project-navigation tests: PASS
+- Full cumulative pytest: 217 passed / 1 skipped
+- Existing production validator: PASS
+- Streamlit release validator: PASS
+
+Live Supabase/RLS/browser acceptance remains a deployment-time verification step.
