@@ -52,42 +52,6 @@ def render(role):
       'shipyard':[('NSC Projects',4,'authorized','blue'),('NSC RFIs',6,'active requests','navy'),('Surveys Due',2,'NSC window','amber'),('Released Observations',3,'visible actions','rust'),('Certificates',10,'released','green')]
     }
     _metric_cards(defaults[role])
-    a,b,c=st.columns([1.15,1.25,1.0])
-    with a:
-      _panel('Project Health Overview','Portfolio health at a glance')
-      pct=int(s.get('health_pct',72))
-      st.markdown(f"<div class='ref-donut'><div class='ref-donut__inner'>{pct}%<span>Overall</span></div></div><div class='ref-health-list'><span>● Healthy 14 (58%)</span><span>● Watch 6 (25%)</span><span>● Attention 4 (17%)</span></div>",unsafe_allow_html=True)
-      _close()
-    with b:
-      _panel('Priority Queue','Highest priority first')
-      for i,(t,v,stt) in enumerate([('Engine Room Ventilation — Delay','MV SEA PRIDE','HIGH'),('Fire Pump Overhaul — Pending','MV OCEAN STAR','MEDIUM'),('Hull Thickness Survey — Overdue','MV BLUE WAVE','OVERDUE')]):
-        tone='danger' if stt in ('HIGH','OVERDUE') else 'warning'
-        st.markdown(f"<div class='ref-list-row'><span class='ref-dot ref-dot--{tone}'></span><div class='ref-list-main'><strong>{t}</strong><span>{v}</span></div><span class='ref-list-status ref-list-status--{tone}'>{stt}</span></div>",unsafe_allow_html=True)
-      _close()
-    with c:
-      _panel('Next Actions','Immediate work by role')
-      for label,count,tone in _workflow(role,s)[:5]:
-        st.markdown(f"<div class='ref-flow-row'><span class='ref-flow-icon ref-flow-icon--{tone}'></span><span>{html.escape(str(label))}</span><b>{count}</b></div>",unsafe_allow_html=True)
-      _close()
-    x,y,z=st.columns([1.1,1.1,1.0])
-    with x:
-      _panel('Milestone Status','On Track · At Risk · Overdue · Completed')
-      for name,val,tone in [('On Track',48,'ok'),('At Risk',12,'warning'),('Overdue',6,'danger'),('Completed',32,'green')]:
-        st.markdown(f"<div class='ref-progress-row'><span>{name}</span><div class='ref-progress'><i class='{tone}' style='width:{min(100,val*2)}%'></i></div><b>{val}</b></div>",unsafe_allow_html=True)
-      _close()
-    with y:
-      _panel('Upcoming Deadlines','Due dates requiring attention')
-      for title,vessel,due in [('Plan Appraisal — REV-05','MV AL-FALAH','2 days'),('Survey RFI — Annual','MV OCEAN STAR','3 days'),('Corrective Action — CA-102','MV BLUE WAVE','5 days')]:
-        st.markdown(f"<div class='ref-list-row'><span class='ref-dot ref-dot--warning'></span><div class='ref-list-main'><strong>{title}</strong><span>{vessel}</span></div><small>{due}</small></div>",unsafe_allow_html=True)
-      _close()
-    with z:
-      _panel('Certificates Overview','Current controlled certificates')
-      for code,vessel,typ,ago in [('CLASS-24-00123','MV AL-FALAH','NSC','2d ago'),('CLASS-24-00124','MV OCEAN STAR','Interim','3d ago'),('CLASS-24-00125','MV BLUE WAVE','NSC','5d ago')]:
-        st.markdown(f"<div class='ref-cert-row'><div><strong>{code}</strong><span>{vessel}</span></div><em>{typ}</em><small>{ago}</small></div>",unsafe_allow_html=True)
-      _close()
-    with st.expander('Authorized global search',expanded=False):
-      q=st.text_input('Search project, vessel, RFI or certificate',placeholder='Enter at least 2 characters',key=f'v37_search_{role}')
-      if q.strip():
-        results=_safe(lambda:pq.global_search_v36(q,25),'Search') or []
-        if not results: st.info('No authorized matches found.')
-        for row in results: st.markdown(f"**{row.get('result_type','').title()}** · {row.get('title','—')}")
+    # Dashboard summary components removed to keep operational detail inside the selected project workspace.
+    # The project tab itself provides direct project navigation and project-specific detail views.
+    st.markdown("<div class='ref-page-subtitle'>Operational workspace ready.</div>", unsafe_allow_html=True)

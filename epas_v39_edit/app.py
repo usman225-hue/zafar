@@ -75,8 +75,7 @@ def main() -> None:
     render_role_cockpit(role)
 
     if view == 'cockpit':
-        st.markdown("### Next-action guidance")
-        st.caption("Select an operational surface above. Only the selected page is loaded, reducing unnecessary database calls on Streamlit reruns.")
+        pass
     elif view == 'projects':
         render_project_launcher(role)
     elif view == 'operations':

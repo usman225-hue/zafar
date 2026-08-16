@@ -311,6 +311,24 @@ def _render_section(role, section, project, vessel, health):
 def _overview(role, project, vessel, health):
     """Project landing page matching the PSB reference: no workflow snapshot and no recent activity."""
     pid = project["id"]
+    st.markdown("### Project Summary")
+    phases = {str(x).lower() for x in (project.get("phases") or [])}
+    summary_rows = [
+        ("Project ID", project.get("project_code")),
+        ("Current Phase", health.get("current_phase") or ("In-Service Active" if "in_service" in phases else "—")),
+        ("Vessel", project.get("name")),
+        ("Current Cycle", health.get("current_cycle") or "—"),
+        ("Classification No.", project.get("classification_number") or "—"),
+        ("Next Survey", health.get("next_survey_due") or (vessel.get("next_survey_due") if vessel else "—")),
+    ]
+    cols = st.columns(2)
+    for i, (label, value) in enumerate(summary_rows):
+        with cols[i % 2]:
+            st.markdown(
+                f"<div class='psb-project-sidebar-row'><span>{label}</span><b>{value or '—'}</b></div>",
+                unsafe_allow_html=True,
+            )
+    st.markdown("---")
     st.markdown("### Project Overview")
     st.caption(f"Projects  ›  {project.get('project_code','—')}  ›  Overview")
     phase_rows = _safe(lambda: pq.project_phase_status(pid), "Phase status") or []
