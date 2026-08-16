@@ -75,36 +75,36 @@ def _create_project():
     st.caption("The GM creates the project once. PostgreSQL atomically activates it, creates the vessel/team/stakeholder records, milestones and workflow notifications.")
     with st.form("gm_create_project_v14"):
         c1,c2,c3=st.columns(3)
-        name=c1.text_input("Project / Vessel name *")
-        vessel_type=c2.text_input("Vessel type *")
-        flag=c3.text_input("Flag state *")
+        name=c1.text_input("Project / Vessel name *", key="gm_project_name")
+        vessel_type=c2.text_input("Vessel type *", key="gm_vessel_type")
+        flag=c3.text_input("Flag state *", key="gm_flag_state")
         c1,c2,c3=st.columns(3)
-        project_code=c1.text_input("Project code (optional)")
-        classification_no=c2.text_input("Classification number")
-        register_no=c3.text_input("Register number")
+        project_code=c1.text_input("Project code (optional)", key="gm_project_code")
+        classification_no=c2.text_input("Classification number", key="gm_classification_number")
+        register_no=c3.text_input("Register number", key="gm_register_number")
         c1,c2,c3=st.columns(3)
-        contract_no=c1.text_input("Contract number")
-        request=c2.text_input("Classification request")
-        scope=c3.text_input("Classification scope")
+        contract_no=c1.text_input("Contract number", key="gm_contract_number")
+        request=c2.text_input("Classification request", key="gm_classification_request")
+        scope=c3.text_input("Classification scope", key="gm_classification_scope")
         c1,c2,c3=st.columns(3)
-        start=c1.date_input("Project start",value=date.today())
-        completion=c2.date_input("Target completion",value=date.today()+timedelta(days=180))
-        build_stage=c3.selectbox("Build stage",["New Building","In-Service","Change of Class","Class Renewal"])
-        phases=st.multiselect("Workflow phases",["plan_appraisal","nsc_survey","in_service"],default=["plan_appraisal","nsc_survey"])
-        rules=st.text_input("Applicable rules (semicolon separated)")
-        remarks=st.text_area("GM project remarks")
+        start=c1.date_input("Project start", value=date.today(), key="gm_project_start")
+        completion=c2.date_input("Target completion", value=date.today()+timedelta(days=180), key="gm_project_completion")
+        build_stage=c3.selectbox("Build stage", ["New Building","In-Service","Change of Class","Class Renewal"], key="gm_build_stage")
+        phases=st.multiselect("Workflow phases", ["plan_appraisal","nsc_survey","in_service"], default=["plan_appraisal","nsc_survey"], key="gm_workflow_phases")
+        rules=st.text_input("Applicable rules (semicolon separated)", key="gm_applicable_rules")
+        remarks=st.text_area("GM project remarks", key="gm_project_remarks")
 
         st.markdown("**Vessel particulars**")
         v1,v2,v3,v4=st.columns(4)
-        imo=v1.text_input("IMO number")
-        loa=v2.number_input("LOA (m)",min_value=0.0,value=0.0)
-        beam=v3.number_input("Beam (m)",min_value=0.0,value=0.0)
-        draft=v4.number_input("Draft (m)",min_value=0.0,value=0.0)
+        imo=v1.text_input("IMO number", key="gm_imo_number")
+        loa=v2.number_input("LOA (m)", min_value=0.0, value=0.0, key="gm_loa")
+        beam=v3.number_input("Beam (m)", min_value=0.0, value=0.0, key="gm_beam")
+        draft=v4.number_input("Draft (m)", min_value=0.0, value=0.0, key="gm_draft")
         v1,v2,v3,v4=st.columns(4)
-        power=v1.number_input("Power (kW)",min_value=0.0,value=0.0)
-        speed=v2.number_input("Speed (kn)",min_value=0.0,value=0.0)
-        build_year=v3.number_input("Build year",min_value=1900,max_value=2100,value=date.today().year)
-        owner=v4.text_input("Owner company")
+        power=v1.number_input("Power (kW)", min_value=0.0, value=0.0, key="gm_power_kw")
+        speed=v2.number_input("Speed (kn)", min_value=0.0, value=0.0, key="gm_speed_kn")
+        build_year=v3.number_input("Build year", min_value=1900, max_value=2100, value=date.today().year, key="gm_build_year")
+        owner=v4.text_input("Owner company", key="gm_owner_company_text")
 
         st.markdown("**Project team**")
         dms=pq.users('dm') or []
@@ -130,17 +130,17 @@ def _create_project():
             surveyor_phase_map[sid]=st.selectbox(f"Primary phase for {surv_name}", ["nsc_survey","in_service"], index=0, key=f'gm_surveyor_phase_{sid}')
 
         st.markdown("**Stakeholders / linked contacts**")
-        owner_company=st.text_input("Owner company", value=owner)
-        designer_company=st.text_input("Designer company")
-        shipyard_company=st.text_input("Shipyard company")
-        shipmgmt_company=st.text_input("Ship Management company")
+        owner_company=st.text_input("Owner company", value=owner, key="gm_owner_company")
+        designer_company=st.text_input("Designer company", key="gm_designer_company")
+        shipyard_company=st.text_input("Shipyard company", key="gm_shipyard_company")
+        shipmgmt_company=st.text_input("Ship Management company", key="gm_shipmgmt_company")
 
         designers=pq.users('designer') or []
-        designer_user=st.selectbox("Linked Designer account", ['none'] + [u['id'] for u in designers], format_func=lambda x: 'Not linked' if x=='none' else next(u['full_name'] for u in designers if u['id']==x), index=0 if not designers else 1 if 'none' in ['none'] else 0) if designers else 'none'
+        designer_user=st.selectbox("Linked Designer account", ['none'] + [u['id'] for u in designers], format_func=lambda x: 'Not linked' if x=='none' else next(u['full_name'] for u in designers if u['id']==x), index=0 if not designers else 1 if 'none' in ['none'] else 0, key='gm_linked_designer_account') if designers else 'none'
         shipm_users=pq.users('ship_management') or []
-        shipm_user=st.selectbox("Linked Ship Management account", ['none'] + [u['id'] for u in shipm_users], format_func=lambda x: 'Not linked' if x=='none' else next(u['full_name'] for u in shipm_users if u['id']==x), index=0 if not shipm_users else 1 if 'none' in ['none'] else 0) if shipm_users else 'none'
-        owner_user=st.selectbox("Linked Owner account", ['none'] + [u['id'] for u in pq.users('owner') or []], format_func=lambda x: 'Not linked' if x=='none' else next(u['full_name'] for u in pq.users('owner') or [] if u['id']==x), index=0) if (pq.users('owner') or []) else 'none'
-        shipyard_user=st.selectbox("Linked Shipyard account", ['none'] + [u['id'] for u in pq.users('shipyard') or []], format_func=lambda x: 'Not linked' if x=='none' else next(u['full_name'] for u in pq.users('shipyard') or [] if u['id']==x), index=0) if (pq.users('shipyard') or []) else 'none'
+        shipm_user=st.selectbox("Linked Ship Management account", ['none'] + [u['id'] for u in shipm_users], format_func=lambda x: 'Not linked' if x=='none' else next(u['full_name'] for u in shipm_users if u['id']==x), index=0 if not shipm_users else 1 if 'none' in ['none'] else 0, key='gm_linked_ship_management_account') if shipm_users else 'none'
+        owner_user=st.selectbox("Linked Owner account", ['none'] + [u['id'] for u in pq.users('owner') or []], format_func=lambda x: 'Not linked' if x=='none' else next(u['full_name'] for u in pq.users('owner') or [] if u['id']==x), index=0, key='gm_linked_owner_account') if (pq.users('owner') or []) else 'none'
+        shipyard_user=st.selectbox("Linked Shipyard account", ['none'] + [u['id'] for u in pq.users('shipyard') or []], format_func=lambda x: 'Not linked' if x=='none' else next(u['full_name'] for u in pq.users('shipyard') or [] if u['id']==x), index=0, key='gm_linked_shipyard_account') if (pq.users('shipyard') or []) else 'none'
 
         contract_file=st.file_uploader("Contract / agreement",type=['pdf'],key='gm_v14_contract')
         rules_file=st.file_uploader("Applicable class rules",type=['pdf'],key='gm_v14_rules')

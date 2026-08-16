@@ -28,3 +28,20 @@ def test_ship_register_before_certification():
     ship_idx = PW.index('("Ship Register", "ship_register"')
     cert_idx = PW.index('("Certification", "certification"')
     assert ship_idx < cert_idx
+
+
+def test_create_project_form_exposes_unique_widget_keys():
+    GM = (ROOT / "components" / "gm_production.py").read_text(encoding="utf-8")
+    for key in [
+        "gm_owner_company",
+        "gm_designer_company",
+        "gm_shipyard_company",
+        "gm_shipmgmt_company",
+    ]:
+        assert key in GM
+
+
+def test_workspace_navigation_is_rendered_in_sidebar():
+    APP = (ROOT / "app.py").read_text(encoding="utf-8")
+    assert "with st.sidebar:" in APP
+    assert "selected_label = st.radio(" in APP

@@ -48,14 +48,16 @@ def main() -> None:
     state_key = f"epas_view_{role}_v39"
     labels = [x[0] for x in options]
     view_titles = {label: key for label, key in options}
-    selected_label = st.radio(
-        "WORKSPACE",
-        labels,
-        index=0,
-        horizontal=True,
-        key=state_key,
-        label_visibility="collapsed",
-    )
+    with st.sidebar:
+        st.markdown("<div class='psb-section-eyebrow'>WORKSPACE</div>", unsafe_allow_html=True)
+        selected_label = st.radio(
+            "WORKSPACE",
+            labels,
+            index=0,
+            horizontal=False,
+            key=state_key,
+            label_visibility="collapsed",
+        )
     view = view_titles[selected_label]
 
     # PSB application shell: authenticated identity, current workspace and secure status.
