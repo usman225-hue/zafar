@@ -22,6 +22,7 @@ def test_project_summary_appears_before_project_overview():
     src = Path('components/project_workspace_v40.py').read_text()
     assert '### Project Summary' in src
     assert src.index('### Project Summary') < src.index('### Project Overview')
+    assert src.count('### Project Summary') == 1
 
 
 def test_app_uses_v39_project_workspace_and_cockpit():

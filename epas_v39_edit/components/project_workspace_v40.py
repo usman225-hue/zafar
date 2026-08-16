@@ -417,20 +417,6 @@ def _overview(role, project, vessel, health):
         if certs and st.button("View all Certificates →", key=f"overview_certificates_{pid}"):
             st.session_state["project_nav_key"]="certification"; st.rerun()
         _project_panel_close()
-    with st.container(border=True):
-        st.markdown("#### PROJECT SUMMARY")
-        summary = [
-            ("Project ID", project.get("project_code")),
-            ("Vessel", project.get("name")),
-            ("Classification No.", project.get("classification_number")),
-            ("Current Phase", health.get("current_phase") or ("In-Service Active" if "in_service" in {str(x).lower() for x in project.get("phases",[]) } else "—")),
-            ("Current Cycle", health.get("current_cycle") or "—"),
-            ("Next Survey", next_due),
-        ]
-        sc=st.columns(3)
-        for i,(k,v) in enumerate(summary):
-            sc[i%3].markdown(f"**{k}**")
-            sc[i%3].caption(v or "—")
 
 def _project_panel_open(title, subtitle=''):
     st.markdown(
