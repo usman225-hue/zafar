@@ -174,7 +174,7 @@ html, body, [class*="css"] { font-family: var(--font-body); color: var(--ink-900
     background: transparent; border: 1px solid transparent; color: #C6D1E3 !important;
     text-align: left; justify-content: flex-start; font-weight: 500; font-size: 13.5px;
     padding: 8px 10px; border-radius: var(--radius-sm); width: 100%; margin-bottom: 3px;
-    box-shadow: none; transition: background 0.15s ease, border-color 0.15s ease;
+    box-shadow: none;
 }
 [data-testid="stSidebar"] .stButton > button:hover {
     background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.10); color: #FFFFFF !important;
@@ -197,6 +197,14 @@ html, body, [class*="css"] { font-family: var(--font-body); color: var(--ink-900
 .eyebrow {
     font-family: var(--font-mono); font-size: 11px; font-weight: 500;
     letter-spacing: 1.2px; text-transform: uppercase; color: var(--blue-600); margin-bottom: 4px;
+}
+h3 {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    color: #13374a;
+    font-size: 2.25rem;
+    line-height: 1.12;
 }
 .page-title { font-family: var(--font-display); font-weight: 600; font-size: 30px; color: var(--ink-900); line-height: 1.15; margin: 0; }
 .page-sub { color: var(--ink-600); font-size: 14px; margin-top: 5px; }
@@ -352,7 +360,6 @@ html, body, [class*="css"] { font-family: var(--font-body); color: var(--ink-900
 .stButton > button {
     border-radius: var(--radius-sm); font-weight: 600; font-size: 13.5px;
     border: 1px solid var(--hairline); padding: 0.45rem 1rem;
-    transition: all 0.15s ease;
 }
 .stButton > button[kind="primary"] {
     background: var(--blue-600); border-color: var(--blue-600); color: white;
@@ -621,6 +628,15 @@ PSB_V362_PROJECT_CSS = r"""
 .psb-project-side-meta { color:#7C8A92; font-size:9.5px; line-height:1.55; }
 
 .psb-workspace-section-kicker { color:var(--psb-teal); font-size:9px; font-weight:850; letter-spacing:1px; margin-bottom:5px; }
+.psb-project-summary-title {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 2.25rem;
+  line-height: 1.1;
+  letter-spacing: -0.04em;
+  font-weight: 700;
+  color: #13374a;
+  margin: 0 0 1rem 0;
+}
 
 .psb-project-row-title { display:flex; gap:9px; align-items:center; flex-wrap:wrap; }
 .psb-project-code { font-size:9px; color:var(--psb-teal); font-weight:850; letter-spacing:.75px; }

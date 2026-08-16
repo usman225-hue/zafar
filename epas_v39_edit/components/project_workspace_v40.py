@@ -241,11 +241,6 @@ def render(role: str, project_id: str | None):
             unsafe_allow_html=True,
         )
 
-    st.markdown(
-        f"<div class='psb-project-breadcrumb'>Projects <span>›</span> {project.get('project_code','—')} <span>›</span> {selected}</div>",
-        unsafe_allow_html=True,
-    )
-    st.markdown(f"<div class='psb-workspace-section-kicker'>{selected.upper()}</div>", unsafe_allow_html=True)
     _render_section(role, values[selected], project, vessel, health)
 
 def _render_section(role, section, project, vessel, health):

@@ -23,8 +23,8 @@ def render() -> dict | None:
             st.markdown("### Pakistan Shipping Bureau")
             st.caption(f"{user['full_name']} · {user['role'].replace('_',' ').title()}")
             st.caption(f"{user['email']}")
-            st.caption("Session timeout: 30 minutes of inactivity")
-            if st.button("Sign out", use_container_width=True, type="secondary"):
+            st.divider()
+            if st.button("Sign out", use_container_width=True, type="secondary", key="psb_signout"):
                 sign_out()
                 st.rerun()
         return user

@@ -30,14 +30,14 @@ def main() -> None:
     role = user.get('role')
 
     NAV = {
-        'gm': [('Command Center', 'cockpit'), ('Projects', 'projects')],
-        'dm': [('Operations Center', 'cockpit'), ('Projects', 'projects')],
-        'engineer': [('Technical Cockpit', 'cockpit'), ('Projects', 'projects')],
-        'surveyor': [('Field Cockpit', 'cockpit'), ('Projects', 'projects')],
-        'designer': [('Submission Cockpit', 'cockpit'), ('Projects', 'projects')],
-        'ship_management': [('Operations Cockpit', 'cockpit'), ('Projects', 'projects')],
-        'owner': [('Fleet Cockpit', 'cockpit'), ('Projects', 'projects')],
-        'shipyard': [('NSC Cockpit', 'cockpit'), ('Projects', 'projects')],
+        'gm': [('Projects', 'projects')],
+        'dm': [('Projects', 'projects')],
+        'engineer': [('Projects', 'projects')],
+        'surveyor': [('Projects', 'projects')],
+        'designer': [('Projects', 'projects')],
+        'ship_management': [('Projects', 'projects')],
+        'owner': [('Projects', 'projects')],
+        'shipyard': [('Projects', 'projects')],
     }
 
     if role not in NAV:
